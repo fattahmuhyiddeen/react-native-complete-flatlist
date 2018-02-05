@@ -5,14 +5,12 @@ import {
   View,
   FlatList,
   TextInput,
-  TouchableOpacity,
-  Keyboard,
   RefreshControl,
   KeyboardAvoidingView,
 } from 'react-native';
 import PropTypes from 'prop-types';
 
-class CommonFlatList extends Component {
+class CompleteFlatList extends Component {
   constructor(props) {
     super(props);
 
@@ -65,9 +63,14 @@ class CommonFlatList extends Component {
     return filteredData;
   }
 
+  renderEmptyRow = () => <Text style={styles.noData}>No data available</Text>;
+
   render() {
     const { renderItem, renderSeparator, pullToRefreshCallback } = this.props;
     const filteredData = this.filterText();
+    if (filteredData.length === 0) {
+      filteredData.push({ showEmptyRow: true });
+    }
 
     const searchbar = (
       <View style={styles.searchBarContainer}>
@@ -107,7 +110,11 @@ class CommonFlatList extends Component {
         <FlatList
           refreshControl={refreshcontrol}
           data={filteredData}
-          renderItem={item => renderItem(item.item)}
+          renderItem={item =>
+            (filteredData.length === 1 && filteredData[0].showEmptyRow !== null
+              ? this.renderEmptyRow()
+              : renderItem(item.item))
+          }
           style={styles.flatList}
           ItemSeparatorComponent={renderSeparator}
         />
@@ -116,14 +123,14 @@ class CommonFlatList extends Component {
   }
 }
 
-CommonFlatList.propTypes = {
+CompleteFlatList.propTypes = {
   searchKey: PropTypes.array,
   data: PropTypes.array,
   renderItem: PropTypes.func,
   renderSeparator: PropTypes.func,
   pullToRefreshCallback: PropTypes.func,
 };
-CommonFlatList.defaultProps = {
+CompleteFlatList.defaultProps = {
   searchKey: [],
   data: [],
   renderItem: null,
@@ -132,6 +139,7 @@ CommonFlatList.defaultProps = {
 };
 
 const styles = StyleSheet.create({
+  noData: { alignSelf: 'center', textAlign: 'center', marginTop: 20 },
   searchBarContainer: {
     justifyContent: 'center',
     padding: 10,
@@ -156,4 +164,4 @@ const styles = StyleSheet.create({
   flatList: { height: '100%', width: '100%', backgroundColor: 'transparent' },
 });
 
-export default CommonFlatList;
+export default CompleteFlatList;
