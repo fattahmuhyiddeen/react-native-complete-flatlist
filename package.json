@@ -1,6 +1,6 @@
 {
   "name": "react-native-complete-flatlist",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A complete flatlist with search bar etc is ready to use",
   "main": "index.js",
   "scripts": {
