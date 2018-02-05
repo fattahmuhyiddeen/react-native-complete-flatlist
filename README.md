@@ -7,12 +7,11 @@ Usage :
 
 ```
 
-
 import React, { Component } from 'react';
 import { View, Text, Image, Platform, StatusBar } from 'react-native';
 import CompleteFlatList from 'react-native-complete-flatlist';
 
-class WelcomeScreen extends Component {
+class App extends Component {
   cell(data) {
     return <Text>{data.name}</Text>;
   }
@@ -22,6 +21,10 @@ class WelcomeScreen extends Component {
     return (
       <CompleteFlatList
         searchKey={['name']}
+        pullToRefreshCallback={() => {
+          console.log('refreshing');
+          //what to do when refresh. refresh loading will dismiss after 7 secs
+        }}
         data={[
           { name: 'Fattah' },
           { name: 'Muhyiddeen' },
