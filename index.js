@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Highlighter from "react-native-highlight-words";
 import {
   StyleSheet,
   Text,
@@ -41,21 +42,40 @@ class CompleteFlatList extends Component {
   }
 
   filterText() {
-    const { data, searchKey } = this.props;
-    const { searchText } = this.state;
+    const { data, searchKey, highlightColor } = this.props;
 
-    if (searchText === "") {
+    if (this.state.searchText === "") {
       return data;
     }
 
+    const searchText = this.state.searchText.toLowerCase();
+
     const filteredData = [];
-    for (let d = 0; d < data.length; d++) {
+    for (let d = 0; d < data.length; d += 1) {
       dt = data[d];
-      for (let s = 0; s < searchKey.length; s++) {
+      for (let s = 0; s < searchKey.length; s += 1) {
         sk = searchKey[s];
         const target = dt[sk];
-        if (target.toLowerCase().indexOf(searchText.toLowerCase()) !== -1) {
-          filteredData.push(dt);
+        if (target.toLowerCase().indexOf(searchText) !== -1) {
+          if (highlightColor === "") {
+            filteredData.push(dt);
+            break;
+          }
+          const row = {};
+          const keys = Object.keys(dt);
+          for (let i = 0; i < keys.length; i += 1) {
+            const key = keys[i];
+            if (typeof dt[key] === "string") {
+              row[key] = (
+                <Highlighter
+                  highlightStyle={{ backgroundColor: highlightColor }}
+                  searchWords={[searchText]}
+                  textToHighlight={dt[key]}
+                />
+              );
+            }
+          }
+          filteredData.push(row);
           break;
         }
       }
@@ -127,14 +147,16 @@ CompleteFlatList.propTypes = {
   data: PropTypes.array,
   renderItem: PropTypes.func,
   renderSeparator: PropTypes.func,
-  pullToRefreshCallback: PropTypes.func
+  pullToRefreshCallback: PropTypes.func,
+  highlightColor: PropTypes.string
 };
 CompleteFlatList.defaultProps = {
   searchKey: [],
   data: [],
   renderItem: null,
   renderSeparator: () => <View style={styles.defaultSeparator} />,
-  pullToRefreshCallback: null
+  pullToRefreshCallback: null,
+  highlightColor: ""
 };
 
 const styles = StyleSheet.create({

@@ -1,7 +1,8 @@
 {
   "name": "react-native-complete-flatlist",
-  "version": "1.0.6",
-  "description": "A complete flatlist with search bar etc is ready to use",
+  "version": "1.0.7",
+  "description":
+    "A complete flatlist with search bar, pull to refresh, and etc is ready to use",
   "main": "index.js",
   "scripts": {
     "test": "mocha --reporter spec"
@@ -20,7 +21,9 @@
     "listview",
     "scroll",
     "listview with search bar",
-    "flatlist with search bar"
+    "flatlist with search bar",
+    "listview with pull to refresh",
+    "flatlist with pull to refresh"
   ],
   "author": "Fattah Muhyiddeen <fattahmuhyiddeen@gmail.com>",
   "license": "MIT",
@@ -34,7 +37,8 @@
     "mocha": "^5.0.0"
   },
   "peerDependencies": {
-    "react-native": "^0.47.2"
+    "react-native": "^0.47.2",
+    "react-native-highlight-words": "^1.0.1"
   },
   "dependencies": {
     "prop-types": "^15.5.10"
