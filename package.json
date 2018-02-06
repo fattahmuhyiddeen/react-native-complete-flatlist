@@ -1,6 +1,6 @@
 {
   "name": "react-native-complete-flatlist",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description":
     "A complete flatlist with search bar, pull to refresh, and etc is ready to use",
   "main": "index.js",
@@ -41,6 +41,7 @@
   },
   "dependencies": {
     "prop-types": "^15.5.10",
-    "react-native-highlight-words": "^1.0.1"
+    "react-native-highlight-words":
+      "git+https://github.com/fattahmuhyiddeen/react-native-highlight-words#master"
   }
 }
