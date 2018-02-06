@@ -1,6 +1,6 @@
 {
   "name": "react-native-complete-flatlist",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "A complete flatlist with search bar etc is ready to use",
   "main": "index.js",
   "scripts": {
@@ -18,7 +18,9 @@
     "searchbar",
     "list",
     "listview",
-    "scroll"
+    "scroll",
+    "listview with search bar",
+    "flatlist with search bar"
   ],
   "author": "Fattah Muhyiddeen <fattahmuhyiddeen@gmail.com>",
   "license": "MIT",
