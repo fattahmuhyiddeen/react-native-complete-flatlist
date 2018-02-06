@@ -1,6 +1,8 @@
 # react-native-complete-flatlist
 Extended version of react native flat list with many built in function such as search
 
+![ezgif-3-734272a58f](https://user-images.githubusercontent.com/24792201/35842001-724e51be-0b3a-11e8-8a4b-77eb8b4ed17f.gif)
+
 Usage : 
 
 
@@ -11,6 +13,30 @@ import React, { Component } from 'react';
 import { View, Text, Image, Platform, StatusBar } from 'react-native';
 import CompleteFlatList from 'react-native-complete-flatlist';
 
+
+const data = [
+  { name: 'Fattah', status: 'Active', time: '8:10 PM', date: '1 Jan 2018' },
+  { name: 'Syah', status: 'Active', time: '9:14 PM', date: '1 Dec 2018' },
+  { name: 'Izzat', status: 'Active', time: '8:15 PM', date: '1 Jan 2018' },
+  { name: 'Fattah', status: 'Active', time: '8:10 PM', date: '1 Jan 2018' },
+  { name: 'Fattah', status: 'Active', time: '8:10 PM', date: '1 Jan 2018' },
+  { name: 'Fattah', status: 'Active', time: '8:10 PM', date: '1 Jan 2018' },
+  { name: 'Fattah', status: 'Active', time: '8:10 PM', date: '1 Jan 2018' },
+  { name: 'Fattah', status: 'Active', time: '8:10 PM', date: '1 Jan 2018' },
+  { name: 'Fattah', status: 'Active', time: '8:10 PM', date: '1 Jan 2018' },
+  { name: 'Fattah', status: 'Active', time: '8:10 PM', date: '1 Jan 2018' },
+  { name: 'Fattah', status: 'Active', time: '8:10 PM', date: '1 Jan 2018' },
+  { name: 'Fattah', status: 'Active', time: '8:10 PM', date: '1 Jan 2018' },
+  { name: 'Fattah', status: 'Active', time: '8:10 PM', date: '1 Jan 2018' },
+  { name: 'Fattah', status: 'Active', time: '8:10 PM', date: '1 Jan 2018' },
+  {
+    name: 'Muhyiddeen',
+    status: 'Blocked',
+    time: '10:10 PM',
+    date: '9 Feb 2018',
+  },
+];
+
 class App extends Component {
   cell(data) {
     return <Text>{data.name}</Text>;
@@ -20,38 +46,15 @@ class App extends Component {
     const { navigation } = this.props;
     return (
       <CompleteFlatList
-        searchKey={['name']}
-        pullToRefreshCallback={() => {
-          console.log('refreshing');
-          //what to do when refresh. refresh loading will dismiss after 7 secs
-        }}
-        data={[
-          { name: 'Fattah' },
-          { name: 'Muhyiddeen' },
-          { name: 'Develop' },
-          { name: 'Fattah' },
-          { name: 'Muhyiddeen' },
-          { name: 'Develop' },
-          { name: 'Fattah' },
-          { name: 'Develop' },
-          { name: 'Fattah' },
-          { name: 'Muhyiddeen' },
-          { name: 'Develop' },
-          { name: 'Fattah' },
-          { name: 'Muhyiddeen' },
-          { name: 'Develop' },
-          { name: 'Fattah' },
-          { name: 'Muhyiddeen' },
-          { name: 'Develop' },
-          { name: 'Fattah' },
-          { name: 'Muhyiddeen' },
-          { name: 'Develop' },
-          { name: 'Fattah' },
-          { name: 'Muhyiddeen' },
-          { name: 'Develop' },
-        ]}
-        renderItem={this.cell.bind(this)}
-      />
+      searchKey={['name', 'status', 'time', 'date']}
+      highlightColor="yellow"
+      pullToRefreshCallback={() => {
+        alert('refreshing');
+      }}
+      data={data}
+      renderSeparator={null}
+      renderItem={this.cell.bind(this)}
+    />
     );
   }
 }
@@ -60,7 +63,3 @@ class App extends Component {
 
 ```
 
-
-
-
-![ezgif-4-cf55f9d77a](https://user-images.githubusercontent.com/24792201/35791132-05755c86-0a81-11e8-8c1d-793b043abeea.gif)
