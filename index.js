@@ -117,7 +117,7 @@ class CompleteFlatList extends Component {
           refreshing={this.props.isRefreshing}
           onRefresh={this.props.pullToRefreshCallback}
 
-          // onRefresh={this.onRefresh.bind(this)}
+        // onRefresh={this.onRefresh.bind(this)}
         />
       );
 
@@ -132,8 +132,8 @@ class CompleteFlatList extends Component {
           data={filteredData}
           renderItem={item =>
             (filteredData.length === 1 &&
-            filteredData[0].showEmptyRow !== null &&
-            typeof filteredData[0].showEmptyRow !== 'undefined'
+              filteredData[0].showEmptyRow !== null &&
+              typeof filteredData[0].showEmptyRow !== 'undefined'
               ? this.renderEmptyRow()
               : renderItem(item.item))
           }
@@ -169,13 +169,14 @@ const styles = StyleSheet.create({
   searchBarContainer: {
     justifyContent: 'center',
     padding: 10,
-    backgroundColor: '#a7a7a8',
+    backgroundColor: '#f2f2f2',
     width: '100%',
   },
   searchBar: {
     borderRadius: 5,
     backgroundColor: 'white',
-    height: 44,
+    height: 38,
+    fontSize: 15,
     width: '100%',
     paddingHorizontal: 10,
   },
@@ -185,7 +186,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'white',
   },
-  defaultSeparator: { height: 1, backgroundColor: '#CCCCCC' },
+  defaultSeparator: {
+    height: 1,
+    width: '80%',
+    alignSelf: 'center',
+    backgroundColor: '#f2f2f2',
+  },
   flatList: { height: '100%', width: '100%', backgroundColor: 'transparent' },
 });
 
