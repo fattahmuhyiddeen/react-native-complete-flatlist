@@ -113,8 +113,11 @@ class CompleteFlatList extends Component {
     const refreshcontrol =
       pullToRefreshCallback == null ? null : (
         <RefreshControl
-          refreshing={this.state.refreshing}
-          onRefresh={this.onRefresh.bind(this)}
+          // refreshing={this.state.refreshing}
+          refreshing={this.props.isRefreshing}
+          onRefresh={this.props.pullToRefreshCallback}
+
+          // onRefresh={this.onRefresh.bind(this)}
         />
       );
 
@@ -129,8 +132,8 @@ class CompleteFlatList extends Component {
           data={filteredData}
           renderItem={item =>
             (filteredData.length === 1 &&
-              filteredData[0].showEmptyRow !== null &&
-              typeof filteredData[0].showEmptyRow !== 'undefined'
+            filteredData[0].showEmptyRow !== null &&
+            typeof filteredData[0].showEmptyRow !== 'undefined'
               ? this.renderEmptyRow()
               : renderItem(item.item))
           }
@@ -149,10 +152,12 @@ CompleteFlatList.propTypes = {
   renderSeparator: PropTypes.func,
   pullToRefreshCallback: PropTypes.func,
   highlightColor: PropTypes.string,
+  isRefreshing: PropTypes.bool,
 };
 CompleteFlatList.defaultProps = {
   searchKey: [],
   data: [],
+  isRefreshing: false,
   renderItem: null,
   renderSeparator: () => <View style={styles.defaultSeparator} />,
   pullToRefreshCallback: null,
@@ -164,14 +169,13 @@ const styles = StyleSheet.create({
   searchBarContainer: {
     justifyContent: 'center',
     padding: 10,
-    backgroundColor: '#f2f2f2',
+    backgroundColor: '#a7a7a8',
     width: '100%',
   },
   searchBar: {
     borderRadius: 5,
     backgroundColor: 'white',
-    height: 38,
-    fontSize: 15,
+    height: 44,
     width: '100%',
     paddingHorizontal: 10,
   },
@@ -181,12 +185,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'white',
   },
-  defaultSeparator: {
-    height: 1,
-    backgroundColor: '#f2f2f2',
-    width: '80%',
-    alignSelf: 'center',
-  },
+  defaultSeparator: { height: 1, backgroundColor: '#CCCCCC' },
   flatList: { height: '100%', width: '100%', backgroundColor: 'transparent' },
 });
 
