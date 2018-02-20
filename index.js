@@ -56,6 +56,9 @@ class CompleteFlatList extends Component {
       for (let s = 0; s < searchKey.length; s += 1) {
         sk = searchKey[s];
         const target = dt[sk];
+        if (typeof target === 'undefined' || target == null) {
+          continue;
+        }
         if (target.toLowerCase().indexOf(searchText) !== -1) {
           if (highlightColor === '') {
             filteredData.push(dt);
@@ -117,7 +120,7 @@ class CompleteFlatList extends Component {
           refreshing={this.props.isRefreshing}
           onRefresh={this.props.pullToRefreshCallback}
 
-        // onRefresh={this.onRefresh.bind(this)}
+          // onRefresh={this.onRefresh.bind(this)}
         />
       );
 
@@ -131,11 +134,11 @@ class CompleteFlatList extends Component {
           refreshControl={refreshcontrol}
           data={filteredData}
           renderItem={item =>
-            (filteredData.length === 1 &&
-              filteredData[0].showEmptyRow !== null &&
-              typeof filteredData[0].showEmptyRow !== 'undefined'
+            filteredData.length === 1 &&
+            filteredData[0].showEmptyRow !== null &&
+            typeof filteredData[0].showEmptyRow !== 'undefined'
               ? this.renderEmptyRow()
-              : renderItem(item.item))
+              : renderItem(item.item)
           }
           style={styles.flatList}
           ItemSeparatorComponent={renderSeparator}
