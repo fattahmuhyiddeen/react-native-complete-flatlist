@@ -90,14 +90,20 @@ class CompleteFlatList extends Component {
   renderEmptyRow = () => <Text style={styles.noData}>No data available</Text>;
 
   render() {
-    const { renderItem, renderSeparator, pullToRefreshCallback } = this.props;
+    const {
+      renderItem,
+      renderSeparator,
+      pullToRefreshCallback,
+      backgroundStyles,
+      searchBarBackgroundStyles,
+    } = this.props;
     const filteredData = this.filterText();
     if (filteredData.length === 0) {
       filteredData.push({ showEmptyRow: true });
     }
 
     const searchbar = (
-      <View style={styles.searchBarContainer}>
+      <View style={[styles.searchBarContainer, searchBarBackgroundStyles]}>
         <TextInput
           style={styles.searchBar}
           placeholder="Search ..."
@@ -127,7 +133,7 @@ class CompleteFlatList extends Component {
     return (
       <KeyboardAvoidingView
         behavior={this.state.behavior}
-        style={styles.container}
+        style={[styles.container, backgroundStyles]}
       >
         {this.props.searchKey.length > 0 && searchbar}
         <FlatList
@@ -156,6 +162,8 @@ CompleteFlatList.propTypes = {
   pullToRefreshCallback: PropTypes.func,
   highlightColor: PropTypes.string,
   isRefreshing: PropTypes.bool,
+  backgroundStyles: PropTypes.object,
+  searchBarBackgroundStyles: PropTypes.object,
 };
 CompleteFlatList.defaultProps = {
   searchKey: [],
@@ -165,6 +173,8 @@ CompleteFlatList.defaultProps = {
   renderSeparator: () => <View style={styles.defaultSeparator} />,
   pullToRefreshCallback: null,
   highlightColor: '',
+  backgroundStyles: {},
+  searchBarBackgroundStyles: {},
 };
 
 const styles = StyleSheet.create({
