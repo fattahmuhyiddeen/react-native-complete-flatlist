@@ -87,7 +87,6 @@ class CompleteFlatList extends Component {
     return filteredData;
   }
 
-  renderEmptyRow = () => <Text style={styles.noData}>No data available</Text>;
 
   render() {
     const {
@@ -126,7 +125,7 @@ class CompleteFlatList extends Component {
           refreshing={this.props.isRefreshing}
           onRefresh={this.props.pullToRefreshCallback}
 
-          // onRefresh={this.onRefresh.bind(this)}
+        // onRefresh={this.onRefresh.bind(this)}
         />
       );
 
@@ -141,9 +140,9 @@ class CompleteFlatList extends Component {
           data={filteredData}
           renderItem={item =>
             filteredData.length === 1 &&
-            filteredData[0].showEmptyRow !== null &&
-            typeof filteredData[0].showEmptyRow !== 'undefined'
-              ? this.renderEmptyRow()
+              filteredData[0].showEmptyRow !== null &&
+              typeof filteredData[0].showEmptyRow !== 'undefined'
+              ? this.props.renderEmptyRow()
               : renderItem(item.item)
           }
           style={styles.flatList}
@@ -164,6 +163,7 @@ CompleteFlatList.propTypes = {
   isRefreshing: PropTypes.bool,
   backgroundStyles: PropTypes.object,
   searchBarBackgroundStyles: PropTypes.object,
+  renderEmptyRow: PropTypes.func
 };
 CompleteFlatList.defaultProps = {
   searchKey: [],
@@ -175,6 +175,8 @@ CompleteFlatList.defaultProps = {
   highlightColor: '',
   backgroundStyles: {},
   searchBarBackgroundStyles: {},
+  renderEmptyRow: () => <Text style={styles.noData}>{'No data available'}</Text>
+
 };
 
 const styles = StyleSheet.create({
