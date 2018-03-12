@@ -1,5 +1,5 @@
 # react-native-complete-flatlist
-Extended version of react native flat list with many built in function such as search
+Extended version of react native flat list with many built in function such as search, pull to refresh, no data available message if empty row
 
 ![ezgif-3-734272a58f](https://user-images.githubusercontent.com/24792201/35842001-724e51be-0b3a-11e8-8a4b-77eb8b4ed17f.gif)
 
