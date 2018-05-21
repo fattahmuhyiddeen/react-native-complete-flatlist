@@ -12,48 +12,40 @@ import {
 import PropTypes from 'prop-types';
 
 class CompleteFlatList extends Component {
-  constructor(props) {
-    super(props);
-
-    this.filterText = this.filterText.bind(this);
-    this.refresh = this.refresh.bind(this);
-
-    this.state = {
-      behavior: 'padding',
-      refreshing: false,
-      searchText: '',
-    };
-  }
+  state = {
+    behavior: 'padding',
+    refreshing: false,
+    searchText: '',
+  };
 
   componentDidMount() {
-    if (this.props.pullToRefreshCallback !== null) { this.props.pullToRefreshCallback(); }
+    if (this.props.pullToRefreshCallback !== null) {
+      this.props.pullToRefreshCallback();
+    }
   }
 
-  onRefresh() {
+  onRefresh = () => {
     this.props.pullToRefreshCallback();
     this.setState({ refreshing: true });
     setTimeout(() => {
       this.setState({ refreshing: false });
     }, 7000);
-  }
+  };
 
-  refresh() {
+  refresh = () => {
     if (this.props.data.length === 0) {
       filtereddata = [{ type: 'emptyrow', name: 'No data available' }];
     }
     filtereddata = this.props.data;
     this.setState({ refreshing: false, data: filtereddata });
-  }
+  };
 
-  filterText() {
+  filterText = () => {
     const { data, searchKey, highlightColor } = this.props;
-
     if (this.state.searchText === '') {
       return data;
     }
-
     const searchText = this.state.searchText.toLowerCase();
-
     const filteredData = [];
     for (let d = 0; d < data.length; d += 1) {
       dt = data[d];
@@ -87,9 +79,8 @@ class CompleteFlatList extends Component {
         }
       }
     }
-
     return filteredData;
-  }
+  };
 
   render() {
     const {
