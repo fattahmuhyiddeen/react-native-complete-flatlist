@@ -26,7 +26,7 @@ class CompleteFlatList extends Component {
   }
 
   componentDidMount() {
-    this.props.pullToRefreshCallback();
+    if (this.props.pullToRefreshCallback !== null) { this.props.pullToRefreshCallback(); }
   }
 
   onRefresh() {
@@ -121,16 +121,12 @@ class CompleteFlatList extends Component {
       </View>
     );
 
-    const refreshcontrol =
-      pullToRefreshCallback == null ? null : (
-        <RefreshControl
-          // refreshing={this.state.refreshing}
-          refreshing={this.props.isRefreshing}
-          onRefresh={this.props.pullToRefreshCallback}
-
-        // onRefresh={this.onRefresh.bind(this)}
-        />
-      );
+    const refreshcontrol = pullToRefreshCallback !== null && (
+      <RefreshControl
+        refreshing={this.props.isRefreshing}
+        onRefresh={this.props.pullToRefreshCallback}
+      />
+    );
 
     return (
       <KeyboardAvoidingView
@@ -174,7 +170,7 @@ CompleteFlatList.defaultProps = {
   isRefreshing: false,
   renderItem: null,
   renderSeparator: () => <View style={styles.defaultSeparator} />,
-  pullToRefreshCallback: () => { },
+  pullToRefreshCallback: null,
   highlightColor: '',
   backgroundStyles: {},
   searchBarBackgroundStyles: {},
