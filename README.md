@@ -28,7 +28,6 @@ const data = [
   { name: 'Fattah', status: 'Active', time: '8:10 PM', date: '1 Jan 2018' },
   { name: 'Fattah', status: 'Active', time: '8:10 PM', date: '1 Jan 2018' },
   { name: 'Fattah', status: 'Active', time: '8:10 PM', date: '1 Jan 2018' },
-  { name: 'Fattah', status: 'Active', time: '8:10 PM', date: '1 Jan 2018' },
   {
     name: 'Muhyiddeen',
     status: 'Blocked',
