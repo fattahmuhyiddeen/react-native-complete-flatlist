@@ -99,7 +99,7 @@ class CompleteFlatList extends Component {
       <View style={[styles.searchBarContainer, searchBarBackgroundStyles]}>
         <TextInput
           style={styles.searchBar}
-          placeholder="Search ..."
+          placeholder={this.props.placeholder}
           clearButtonMode="while-editing"
           placeholderTextColor="#919188"
           underlineColorAndroid="transparent"
@@ -154,9 +154,11 @@ CompleteFlatList.propTypes = {
   backgroundStyles: PropTypes.object,
   searchBarBackgroundStyles: PropTypes.object,
   renderEmptyRow: PropTypes.func,
+  placeholder: PropTypes.string,
 };
 CompleteFlatList.defaultProps = {
   searchKey: [],
+  placeholder: 'Search ...',
   data: [],
   isRefreshing: false,
   renderItem: null,
