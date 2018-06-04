@@ -125,6 +125,7 @@ class CompleteFlatList extends Component {
         style={[styles.container, backgroundStyles]}
       >
         {this.props.searchKey.length > 0 && searchbar}
+        {this.props.elementBetweenSearchAndList}
         <FlatList
           refreshControl={refreshcontrol}
           data={filteredData}
@@ -155,6 +156,7 @@ CompleteFlatList.propTypes = {
   searchBarBackgroundStyles: PropTypes.object,
   renderEmptyRow: PropTypes.func,
   placeholder: PropTypes.string,
+  elementBetweenSearchAndList: PropTypes.element,
 };
 CompleteFlatList.defaultProps = {
   searchKey: [],
@@ -170,6 +172,7 @@ CompleteFlatList.defaultProps = {
   renderEmptyRow: () => (
     <Text style={styles.noData}>{'No data available'}</Text>
   ),
+  elementBetweenSearchAndList: null
 };
 
 const styles = StyleSheet.create({
