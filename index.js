@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import Highlighter from 'react-native-highlight-words';
+import React, { Component } from "react";
+import Highlighter from "react-native-highlight-words";
 import {
   StyleSheet,
   Text,
@@ -7,15 +7,15 @@ import {
   FlatList,
   TextInput,
   RefreshControl,
-  KeyboardAvoidingView,
-} from 'react-native';
-import PropTypes from 'prop-types';
+  KeyboardAvoidingView
+} from "react-native";
+import PropTypes from "prop-types";
 
 class CompleteFlatList extends Component {
   state = {
-    behavior: 'padding',
+    behavior: "padding",
     refreshing: false,
-    searchText: '',
+    searchText: ""
   };
 
   componentDidMount() {
@@ -34,7 +34,7 @@ class CompleteFlatList extends Component {
 
   refresh = () => {
     if (this.props.data.length === 0) {
-      filtereddata = [{ type: 'emptyrow', name: 'No data available' }];
+      filtereddata = [{ type: "emptyrow", name: "No data available" }];
     }
     filtereddata = this.props.data;
     this.setState({ refreshing: false, data: filtereddata });
@@ -42,7 +42,7 @@ class CompleteFlatList extends Component {
 
   filterText = () => {
     const { data, searchKey, highlightColor } = this.props;
-    if (this.state.searchText === '') {
+    if (this.state.searchText === "") {
       return data;
     }
     const searchText = this.state.searchText.toLowerCase();
@@ -52,11 +52,11 @@ class CompleteFlatList extends Component {
       for (let s = 0; s < searchKey.length; s += 1) {
         sk = searchKey[s];
         const target = dt[sk];
-        if (typeof target === 'undefined' || target == null) {
+        if (typeof target === "undefined" || target == null) {
           continue;
         }
         if (target.toLowerCase().indexOf(searchText) !== -1) {
-          if (highlightColor === '') {
+          if (highlightColor === "") {
             filteredData.push(dt);
             break;
           }
@@ -64,7 +64,7 @@ class CompleteFlatList extends Component {
           const keys = Object.keys(dt);
           for (let i = 0; i < keys.length; i += 1) {
             const key = keys[i];
-            if (typeof dt[key] === 'string') {
+            if (typeof dt[key] === "string") {
               row[key] = (
                 <Highlighter
                   highlightStyle={{ backgroundColor: highlightColor }}
@@ -88,7 +88,7 @@ class CompleteFlatList extends Component {
       renderSeparator,
       pullToRefreshCallback,
       backgroundStyles,
-      searchBarBackgroundStyles,
+      searchBarBackgroundStyles
     } = this.props;
     const filteredData = this.filterText();
     if (filteredData.length === 0) {
@@ -112,13 +112,6 @@ class CompleteFlatList extends Component {
       </View>
     );
 
-    const refreshcontrol = pullToRefreshCallback !== null && (
-      <RefreshControl
-        refreshing={this.props.isRefreshing}
-        onRefresh={this.props.pullToRefreshCallback}
-      />
-    );
-
     return (
       <KeyboardAvoidingView
         behavior={this.state.behavior}
@@ -127,14 +120,21 @@ class CompleteFlatList extends Component {
         {this.props.searchKey.length > 0 && searchbar}
         {this.props.elementBetweenSearchAndList}
         <FlatList
-          refreshControl={refreshcontrol}
+          refreshControl={
+            pullToRefreshCallback !== null ? (
+              <RefreshControl
+                refreshing={this.props.isRefreshing}
+                onRefresh={this.props.pullToRefreshCallback}
+              />
+            ) : null
+          }
           data={filteredData}
           renderItem={item =>
-            (filteredData.length === 1 &&
-              filteredData[0].showEmptyRow !== null &&
-              typeof filteredData[0].showEmptyRow !== 'undefined'
+            filteredData.length === 1 &&
+            filteredData[0].showEmptyRow !== null &&
+            typeof filteredData[0].showEmptyRow !== "undefined"
               ? this.props.renderEmptyRow()
-              : renderItem(item.item))
+              : renderItem(item.item)
           }
           style={styles.flatList}
           ItemSeparatorComponent={renderSeparator}
@@ -156,54 +156,54 @@ CompleteFlatList.propTypes = {
   searchBarBackgroundStyles: PropTypes.object,
   renderEmptyRow: PropTypes.func,
   placeholder: PropTypes.string,
-  elementBetweenSearchAndList: PropTypes.element,
+  elementBetweenSearchAndList: PropTypes.element
 };
 CompleteFlatList.defaultProps = {
   searchKey: [],
-  placeholder: 'Search ...',
+  placeholder: "Search ...",
   data: [],
   isRefreshing: false,
   renderItem: null,
   renderSeparator: () => <View style={styles.defaultSeparator} />,
   pullToRefreshCallback: null,
-  highlightColor: '',
+  highlightColor: "",
   backgroundStyles: {},
   searchBarBackgroundStyles: {},
   renderEmptyRow: () => (
-    <Text style={styles.noData}>{'No data available'}</Text>
+    <Text style={styles.noData}>{"No data available"}</Text>
   ),
   elementBetweenSearchAndList: null
 };
 
 const styles = StyleSheet.create({
-  noData: { alignSelf: 'center', textAlign: 'center', marginTop: 20 },
+  noData: { alignSelf: "center", textAlign: "center", marginTop: 20 },
   searchBarContainer: {
-    justifyContent: 'center',
+    justifyContent: "center",
     padding: 10,
-    backgroundColor: '#f2f2f2',
-    width: '100%',
+    backgroundColor: "#f2f2f2",
+    width: "100%"
   },
   searchBar: {
     borderRadius: 5,
-    backgroundColor: 'white',
+    backgroundColor: "white",
     height: 38,
     fontSize: 15,
-    width: '100%',
-    paddingHorizontal: 10,
+    width: "100%",
+    paddingHorizontal: 10
   },
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'white',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "white"
   },
   defaultSeparator: {
     height: 1,
-    width: '80%',
-    alignSelf: 'center',
-    backgroundColor: '#f2f2f2',
+    width: "80%",
+    alignSelf: "center",
+    backgroundColor: "#f2f2f2"
   },
-  flatList: { height: '100%', width: '100%', backgroundColor: 'transparent' },
+  flatList: { height: "100%", width: "100%", backgroundColor: "transparent" }
 });
 
 export default CompleteFlatList;
