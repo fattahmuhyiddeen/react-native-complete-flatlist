@@ -18,9 +18,11 @@ class CompleteFlatList extends Component {
     searchText: ""
   };
 
-  componentDidMount() {
-    if (this.props.pullToRefreshCallback !== null) {
-      this.props.pullToRefreshCallback();
+  constructor(props) {
+    super(props)
+    const { refreshOnLoad = true, pullToRefreshCallback } = props
+    if (pullToRefreshCallback !== null && refreshOnLoad) {
+      pullToRefreshCallback();
     }
   }
 
@@ -131,8 +133,8 @@ class CompleteFlatList extends Component {
           data={filteredData}
           renderItem={item =>
             filteredData.length === 1 &&
-            filteredData[0].showEmptyRow !== null &&
-            typeof filteredData[0].showEmptyRow !== "undefined"
+              filteredData[0].showEmptyRow !== null &&
+              typeof filteredData[0].showEmptyRow !== "undefined"
               ? this.props.renderEmptyRow()
               : renderItem(item.item)
           }

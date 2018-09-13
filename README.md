@@ -80,3 +80,4 @@ class App extends Component {
 |`highlightColor`|color|color of higlighted words background when match search keyword|yellow|Optional|
 |`searchKey`|array of string|This should be name of keys available in data which will be use to search|null|Optional (if not supplied, search field will not appear)|
 |`elementBetweenSearchAndList`|JSX element|What to render between searchbar and the list|null|Optional|
+|`refreshOnLoad`|boolean|If yes, prop `pullToRefreshCallback` will be called if available|true|Optional|
