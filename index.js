@@ -7,7 +7,6 @@ import {
   FlatList,
   TextInput,
   RefreshControl,
-  KeyboardAvoidingView
 } from "react-native";
 import PropTypes from "prop-types";
 
@@ -115,7 +114,7 @@ class CompleteFlatList extends Component {
     );
 
     return (
-      <KeyboardAvoidingView
+      <View
         behavior={this.state.behavior}
         style={[styles.container, backgroundStyles]}
       >
@@ -141,7 +140,7 @@ class CompleteFlatList extends Component {
           style={styles.flatList}
           ItemSeparatorComponent={renderSeparator}
         />
-      </KeyboardAvoidingView>
+      </View>
     );
   }
 }
