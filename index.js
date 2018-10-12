@@ -88,9 +88,12 @@ class CompleteFlatList extends Component {
       renderItem,
       renderSeparator,
       pullToRefreshCallback,
+      isRefreshing,
       backgroundStyles,
-      searchBarBackgroundStyles
+      searchBarBackgroundStyles,
+      onSearch
     } = this.props;
+    const { searchText } = this.state
     const filteredData = this.filterText();
     if (filteredData.length === 0) {
       filteredData.push({ showEmptyRow: true });
@@ -107,8 +110,10 @@ class CompleteFlatList extends Component {
           autoCapitalize="none"
           keyboardType="email-address"
           onChangeText={searchText => this.setState({ searchText })}
-          value={this.state.searchText}
+          value={searchText}
           maxLength={100}
+          returnKeyType='search'
+          onSubmitEditing={() => onSearch ? onSearch() : null}
         />
       </View>
     );
@@ -122,12 +127,19 @@ class CompleteFlatList extends Component {
         {this.props.elementBetweenSearchAndList}
         <FlatList
           refreshControl={
-            pullToRefreshCallback !== null ? (
+            onSearch !== null ? (
               <RefreshControl
-                refreshing={this.props.isRefreshing}
-                onRefresh={this.props.pullToRefreshCallback}
+                refreshing={isRefreshing}
+                onRefresh={() => onSearch(searchText)}
               />
-            ) : null
+            )
+              :
+              pullToRefreshCallback !== null ? (
+                <RefreshControl
+                  refreshing={isRefreshing}
+                  onRefresh={pullToRefreshCallback}
+                />
+              ) : null
           }
           data={filteredData}
           renderItem={item =>
@@ -151,6 +163,7 @@ CompleteFlatList.propTypes = {
   renderItem: PropTypes.func,
   renderSeparator: PropTypes.func,
   pullToRefreshCallback: PropTypes.func,
+  onSearch: PropTypes.func,
   highlightColor: PropTypes.string,
   isRefreshing: PropTypes.bool,
   backgroundStyles: PropTypes.object,
@@ -167,6 +180,7 @@ CompleteFlatList.defaultProps = {
   renderItem: null,
   renderSeparator: () => <View style={styles.defaultSeparator} />,
   pullToRefreshCallback: null,
+  onSearch: null,
   highlightColor: "",
   backgroundStyles: {},
   searchBarBackgroundStyles: {},

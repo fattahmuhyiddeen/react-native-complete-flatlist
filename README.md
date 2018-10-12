@@ -81,3 +81,4 @@ class App extends Component {
 |`searchKey`|array of string|This should be name of keys available in data which will be use to search|null|Optional (if not supplied, search field will not appear)|
 |`elementBetweenSearchAndList`|JSX element|What to render between searchbar and the list|null|Optional|
 |`refreshOnLoad`|boolean|If `true`, prop `pullToRefreshCallback` will be called if available|true|Optional|
+|`onSearch`|function that will replace `pullToRefreshCallback`|If exist, `pullToRefreshCallback` will be overrided, but search will not affect on key press, but on return key pressed. `onSearch` will automatic get `keyword` parameter|()=>null|Optional|
