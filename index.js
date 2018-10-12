@@ -142,15 +142,16 @@ class CompleteFlatList extends Component {
               ) : null
           }
           data={filteredData}
-          renderItem={item =>
+          renderItem={({ item, index, separators: { highlight, unhighlight, updateProps } }) =>
             filteredData.length === 1 &&
               filteredData[0].showEmptyRow !== null &&
               typeof filteredData[0].showEmptyRow !== "undefined"
               ? this.props.renderEmptyRow()
-              : renderItem(item.item)
+              : renderItem(item, index)
           }
           style={styles.flatList}
           ItemSeparatorComponent={renderSeparator}
+          keyExtractor={(item, index) => index.toString()}
         />
       </View>
     );
