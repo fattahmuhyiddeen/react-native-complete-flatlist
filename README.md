@@ -38,7 +38,8 @@ const data = [
 ];
 
 class App extends Component {
-  cell(data) {
+  cell(data,index) {
+    console.log('this is index number : '+index)
     return <Text>{data.name}</Text>;
   }
 
