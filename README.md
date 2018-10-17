@@ -38,7 +38,7 @@ const data = [
 ];
 
 class App extends Component {
-  cell(data,index) {
+  cell = (data,index) => {
     console.log('this is index number : '+index)
     return <Text>{data.name}</Text>;
   }
@@ -54,7 +54,7 @@ class App extends Component {
       }}
       data={data}
       renderSeparator={null}
-      renderItem={this.cell.bind(this)}
+      renderItem={this.cell}
     />
     );
   }
