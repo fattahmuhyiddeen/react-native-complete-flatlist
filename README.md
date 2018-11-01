@@ -3,6 +3,17 @@ Extended version of react native flat list with many built in function such as s
 
 ![ezgif-3-734272a58f](https://user-images.githubusercontent.com/24792201/35842001-724e51be-0b3a-11e8-8a4b-77eb8b4ed17f.gif)
 
+
+Caution:
+
+```renderItem``` props return ```data``` and ```index``` parameters
+```data``` parameter returns a single element in ```data``` array. But if search text is not empty, ```data``` parameter will return new structure of JSON object (in order to render highlighted text in jsx). This might break your logic. Therefore, if you want to access original structure of your data, it will be under ```data.cleanData```. Remember, ```data.cleanData``` only exist if search text is not empty (user is searching)
+
+
+
+
+
+
 Usage : 
 
 
@@ -39,6 +50,8 @@ const data = [
 
 class App extends Component {
   cell = (data,index) => {
+    console.log(data.cleanData)
+    console.log('data.cleanData will be not null if search bar is not empty. caution, data without search is not same like data with search due to implement the highlight component. data.cleanData is equal to data')
     console.log('this is index number : '+index)
     return <Text>{data.name}</Text>;
   }

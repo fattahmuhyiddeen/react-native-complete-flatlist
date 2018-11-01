@@ -62,6 +62,7 @@ class CompleteFlatList extends Component {
             break;
           }
           const row = {};
+          row.cleanData = dt
           const keys = Object.keys(dt);
           for (let i = 0; i < keys.length; i += 1) {
             const key = keys[i];
@@ -80,7 +81,7 @@ class CompleteFlatList extends Component {
         }
       }
     }
-    return filteredData;
+    return filteredData
   };
 
   render() {
