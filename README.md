@@ -50,9 +50,15 @@ const data = [
 
 class App extends Component {
   cell = (data,index) => {
+    const item = data.cleanData ? data.cleanData : data
+
     console.log(data.cleanData)
     console.log('data.cleanData will be not null if search bar is not empty. caution, data without search is not same like data with search due to implement the highlight component. data.cleanData is equal to data')
+
     console.log('this is index number : '+index)
+
+    console.log(item+' this is original data')
+
     return <Text>{data.name}</Text>;
   }
 
