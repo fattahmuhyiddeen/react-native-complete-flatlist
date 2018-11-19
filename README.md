@@ -98,7 +98,7 @@ class App extends Component {
 |`renderSeparator`|function that return a JSX element to be rendered between rows(Just like RN's ListView and FlatList)|Template of separator in the Flat List|a thin line|Optional|
 |`placeholder`|string|Placeholder of search field|"Search ..."|Optional|
 |`highlightColor`|color|color of higlighted words background when match search keyword|yellow|Optional|
-|`searchKey`|array of string|This should be name of keys available in data which will be use to search|null|Optional (if not supplied, search field will not appear)|
+|`searchKey`|array of string|This should be name of keys available in data which will be use to search. ```**Warning: nested key not yet supported```|null|Optional (if not supplied, search field will not appear)|
 |`elementBetweenSearchAndList`|JSX element|What to render between searchbar and the list|null|Optional|
 |`refreshOnLoad`|boolean|If `true`, prop `pullToRefreshCallback` will be called if available|true|Optional|
 |`onSearch`|function that will replace `pullToRefreshCallback`|If exist, `pullToRefreshCallback` will be overrided. This will not triggered on key press, but on return key pressed. This props is introduced if search trigger result from API. If you just want local search (search from existing array), this props is not needed. `onSearch` will automatic get `keyword` parameter|()=>null|Optional|
