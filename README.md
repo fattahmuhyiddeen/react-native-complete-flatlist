@@ -97,6 +97,7 @@ class App extends Component {
 |`renderItem`|function that return a JSX element (Just like RN's ListView and FlatList)|Template of a row in the Flat List|null (open for PR if anyone wish to make default template for this)|Required (since I dont do default template yet) |
 |`renderSeparator`|function that return a JSX element to be rendered between rows(Just like RN's ListView and FlatList)|Template of separator in the Flat List|a thin line|Optional|
 |`placeholder`|string|Placeholder of search field|"Search ..."|Optional|
+|`searchTextInputStyle`|object (style for React Native's TextInput component)|style for search field|null|Optional|
 |`highlightColor`|color|color of higlighted words background when match search keyword|yellow|Optional|
 |`searchKey`|array of string|This should be name of keys available in data which will be use to search. ```**Warning: nested key not yet supported```|null|Optional (if not supplied, search field will not appear)|
 |`elementBetweenSearchAndList`|JSX element|What to render between searchbar and the list|null|Optional|

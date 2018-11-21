@@ -92,7 +92,9 @@ class CompleteFlatList extends Component {
       isRefreshing,
       backgroundStyles,
       searchBarBackgroundStyles,
-      onSearch
+      onSearch,
+      placeholder,
+      searchTextInputStyle,
     } = this.props;
     const { searchText } = this.state
     const filteredData = this.filterText();
@@ -103,8 +105,8 @@ class CompleteFlatList extends Component {
     const searchbar = (
       <View style={[styles.searchBarContainer, searchBarBackgroundStyles]}>
         <TextInput
-          style={styles.searchBar}
-          placeholder={this.props.placeholder}
+          style={[styles.searchBar, searchTextInputStyle]}
+          placeholder={placeholder}
           clearButtonMode="while-editing"
           placeholderTextColor="#919188"
           underlineColorAndroid="transparent"
@@ -172,6 +174,7 @@ CompleteFlatList.propTypes = {
   searchBarBackgroundStyles: PropTypes.object,
   renderEmptyRow: PropTypes.func,
   placeholder: PropTypes.string,
+  searchTextInputStyle: PropTypes.object,
   elementBetweenSearchAndList: PropTypes.element
 };
 CompleteFlatList.defaultProps = {
@@ -185,6 +188,7 @@ CompleteFlatList.defaultProps = {
   onSearch: null,
   highlightColor: "",
   backgroundStyles: {},
+  searchTextInputStyle: {},
   searchBarBackgroundStyles: {},
   renderEmptyRow: () => (
     <Text style={styles.noData}>{"No data available"}</Text>
