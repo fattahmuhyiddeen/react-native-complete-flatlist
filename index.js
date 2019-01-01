@@ -129,6 +129,7 @@ class CompleteFlatList extends Component {
         {this.props.searchKey.length > 0 && searchbar}
         {this.props.elementBetweenSearchAndList}
         <FlatList
+          {...this.props}
           refreshControl={
             onSearch !== null ? (
               <RefreshControl
