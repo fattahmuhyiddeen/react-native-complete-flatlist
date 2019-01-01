@@ -89,6 +89,7 @@ class App extends Component {
 
 ### Properties
 All FlatList props should work plus props mentioned below
+
 |Prop|Type|Description|Default|Required|
 |----|----|-----------|-------|--------|
 |`data`|array of objects|Data to be rendered in the list|[]|Required (come on, ofcourse u need data for this)|
