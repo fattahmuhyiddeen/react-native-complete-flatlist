@@ -8,7 +8,6 @@ import {
   TextInput,
   RefreshControl,
 } from "react-native";
-import PropTypes from "prop-types";
 
 class CompleteFlatList extends Component {
   state = {
@@ -17,13 +16,34 @@ class CompleteFlatList extends Component {
     searchText: ""
   };
 
-  constructor(props) {
-    super(props)
+  static defaultProps = {
+    searchKey: [],
+    placeholder: "Search ...",
+    data: [],
+    isRefreshing: false,
+    renderItem: null,
+    renderSeparator: () => <View style={styles.defaultSeparator} />,
+    pullToRefreshCallback: null,
+    onSearch: null,
+    highlightColor: "",
+    backgroundStyles: {},
+    searchTextInputStyle: {},
+    searchBarBackgroundStyles: {},
+    renderEmptyRow: () => (
+      <Text style={styles.noData}>{"No data available"}</Text>
+    ),
+    elementBetweenSearchAndList: null
+  };
+
+  constructor(props, defaultProps) {
+    super(props, defaultProps)
     const { refreshOnLoad = true, pullToRefreshCallback } = props
     if (pullToRefreshCallback !== null && refreshOnLoad) {
       pullToRefreshCallback();
     }
   }
+
+  clearSearch = () => this.searchInput.clear()
 
   onRefresh = () => {
     this.props.pullToRefreshCallback();
@@ -105,6 +125,7 @@ class CompleteFlatList extends Component {
     const searchbar = (
       <View style={[styles.searchBarContainer, searchBarBackgroundStyles]}>
         <TextInput
+          ref={c => this.searchInput = c}
           style={[styles.searchBar, searchTextInputStyle]}
           placeholder={placeholder}
           clearButtonMode="while-editing"
@@ -162,40 +183,6 @@ class CompleteFlatList extends Component {
   }
 }
 
-CompleteFlatList.propTypes = {
-  searchKey: PropTypes.array,
-  data: PropTypes.array,
-  renderItem: PropTypes.func,
-  renderSeparator: PropTypes.func,
-  pullToRefreshCallback: PropTypes.func,
-  onSearch: PropTypes.func,
-  highlightColor: PropTypes.string,
-  isRefreshing: PropTypes.bool,
-  backgroundStyles: PropTypes.object,
-  searchBarBackgroundStyles: PropTypes.object,
-  renderEmptyRow: PropTypes.func,
-  placeholder: PropTypes.string,
-  searchTextInputStyle: PropTypes.object,
-  elementBetweenSearchAndList: PropTypes.element
-};
-CompleteFlatList.defaultProps = {
-  searchKey: [],
-  placeholder: "Search ...",
-  data: [],
-  isRefreshing: false,
-  renderItem: null,
-  renderSeparator: () => <View style={styles.defaultSeparator} />,
-  pullToRefreshCallback: null,
-  onSearch: null,
-  highlightColor: "",
-  backgroundStyles: {},
-  searchTextInputStyle: {},
-  searchBarBackgroundStyles: {},
-  renderEmptyRow: () => (
-    <Text style={styles.noData}>{"No data available"}</Text>
-  ),
-  elementBetweenSearchAndList: null
-};
 
 const styles = StyleSheet.create({
   noData: { alignSelf: "center", textAlign: "center", marginTop: 20 },

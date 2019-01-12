@@ -72,6 +72,7 @@ class App extends Component {
         alert('refreshing');
       }}
       data={data}
+      ref={c => this.completeFlatList = c}
       renderSeparator={null}
       renderItem={this.cell}
       onEndReached={() => console.log("reach end")}
@@ -107,3 +108,22 @@ All FlatList props should work plus props mentioned below
 |`elementBetweenSearchAndList`|JSX element|What to render between searchbar and the list|null|Optional|
 |`refreshOnLoad`|boolean|If `true`, prop `pullToRefreshCallback` will be called if available|true|Optional|
 |`onSearch`|function that will replace `pullToRefreshCallback`|If exist, `pullToRefreshCallback` will be overrided. This will not triggered on key press, but on return key pressed. This props is introduced if search trigger result from API. If you just want local search (search from existing array), this props is not needed. `onSearch` will automatic get `keyword` parameter|()=>null|Optional|
+
+
+### Methods
+If you have ```ref``` to the component,
+```
+
+            <CompleteFlatList
+               ...
+                ref={c => this.completeFlatList = c}
+                ...
+            />
+```
+
+you can use any method(s) below
+```this.completeFlatList.methodName()```
+
+|Method|Description|
+|------|-----------|
+|clearSearch|Clear search input programmatically|
