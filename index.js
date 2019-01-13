@@ -43,7 +43,7 @@ class CompleteFlatList extends Component {
     }
   }
 
-  clearSearch = () => this.searchInput.clear()
+  clearSearch = () => this.setState({ searchText: "" }, this.searchInput.clear)
 
   onRefresh = () => {
     this.props.pullToRefreshCallback();
