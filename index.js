@@ -137,7 +137,7 @@ class CompleteFlatList extends Component {
           value={searchText}
           maxLength={100}
           returnKeyType='search'
-          onSubmitEditing={() => onSearch ? onSearch() : null}
+          onSubmitEditing={() => onSearch && onSearch(this.state.searchText)}
         />
       </View>
     );
