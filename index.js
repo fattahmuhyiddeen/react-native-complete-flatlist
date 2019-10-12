@@ -62,8 +62,8 @@ class CompleteFlatList extends Component {
   };
 
   filterText = () => {
-    const { data, searchKey, highlightColor } = this.props;
-    if (this.state.searchText === "") {
+    const { data, searchKey, highlightColor, onSearch } = this.props;
+    if (this.state.searchText === "" || onSearch !== null) {
       return data;
     }
     const searchText = this.state.searchText.toLowerCase();
@@ -147,7 +147,7 @@ class CompleteFlatList extends Component {
         behavior={this.state.behavior}
         style={[styles.container, backgroundStyles]}
       >
-        {this.props.searchKey.length > 0 && searchbar}
+        {this.props.searchKey.length > 0 || onSearch !== null && searchbar}
         {this.props.elementBetweenSearchAndList}
         <FlatList
           {...this.props}
