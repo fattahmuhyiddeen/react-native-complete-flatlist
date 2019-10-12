@@ -147,7 +147,7 @@ class CompleteFlatList extends Component {
         behavior={this.state.behavior}
         style={[styles.container, backgroundStyles]}
       >
-        {(this.props.searchKey.length > 0 || onSearch !== null) && searchbar}
+        {(this.props.searchKey.length > 0 || onSearch) && searchbar}
         {this.props.elementBetweenSearchAndList}
         <FlatList
           {...this.props}
