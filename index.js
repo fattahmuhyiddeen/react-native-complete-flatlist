@@ -29,6 +29,7 @@ class CompleteFlatList extends Component {
     backgroundStyles: {},
     searchTextInputStyle: {},
     searchBarBackgroundStyles: {},
+    showSearch: true,
     renderEmptyRow: () => (
       <Text style={styles.noData}>{"No data available"}</Text>
     ),
@@ -115,6 +116,7 @@ class CompleteFlatList extends Component {
       onSearch,
       placeholder,
       searchTextInputStyle,
+      showSearch,
     } = this.props;
     const { searchText } = this.state
     const filteredData = this.filterText();
@@ -147,7 +149,7 @@ class CompleteFlatList extends Component {
         behavior={this.state.behavior}
         style={[styles.container, backgroundStyles]}
       >
-        {(this.props.searchKey.length > 0 || onSearch) && searchbar}
+        {showSearch && searchbar}
         {this.props.elementBetweenSearchAndList}
         <FlatList
           {...this.props}
