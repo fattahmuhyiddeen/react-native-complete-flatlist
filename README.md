@@ -93,6 +93,7 @@ All FlatList props should work plus props mentioned below
 
 |Prop|Type|Description|Default|Required|
 |----|----|-----------|-------|--------|
+|`showSearch`|boolean|If `true`, search bar will be show|true|Optional|
 |`data`|array of objects|Data to be rendered in the list|[]|Required (come on, ofcourse u need data for this)|
 |`renderEmptyRow`|function that return a JSX element|Will be rendered when data is empty or search does not match any keyword|```()=><Text style={styles.noData}>{'No data available'}</Text>```|Optional|
 |`backgroundStyles`|style object|Style of the flatlist background|null|Optional|
