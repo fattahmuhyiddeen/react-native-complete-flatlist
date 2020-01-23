@@ -49,7 +49,7 @@ const data = [
 ];
 
 class App extends Component {
-  cell = (data,index) => {
+  cell = ({data,index}) => {
     const item = data.cleanData ? data.cleanData : data
 
     console.log(data.cleanData)
@@ -94,6 +94,7 @@ All FlatList props should work plus props mentioned below
 |Prop|Type|Description|Default|Required|
 |----|----|-----------|-------|--------|
 |`showSearch`|boolean|If `true`, search bar will be show|true|Optional|
+|`isJelly`|boolean|If `true`, when user scroll, the list will expand a lil bit, and when user stop drag, the list will back to original size (iMessage on iPhone style)|false|Optional|
 |`data`|array of objects|Data to be rendered in the list|[]|Required (come on, ofcourse u need data for this)|
 |`renderEmptyRow`|function that return a JSX element|Will be rendered when data is empty or search does not match any keyword|```()=><Text style={styles.noData}>{'No data available'}</Text>```|Optional|
 |`backgroundStyles`|style object|Style of the flatlist background|null|Optional|

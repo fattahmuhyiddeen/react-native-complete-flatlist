@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from 'react';
 import Highlighter from "react-native-highlight-words";
 import {
   StyleSheet,
@@ -7,13 +7,15 @@ import {
   FlatList,
   TextInput,
   RefreshControl,
+  Animated,
 } from "react-native";
 
-class CompleteFlatList extends Component {
+class CompleteFlatList extends React.Component {
   state = {
     behavior: "padding",
     refreshing: false,
-    searchText: ""
+    searchText: "",
+    rowScale: new Animated.Value(0),
   };
 
   static defaultProps = {
@@ -30,6 +32,7 @@ class CompleteFlatList extends Component {
     searchTextInputStyle: {},
     searchBarBackgroundStyles: {},
     showSearch: true,
+    isJelly: false,
     renderEmptyRow: () => (
       <Text style={styles.noData}>{"No data available"}</Text>
     ),
@@ -102,7 +105,23 @@ class CompleteFlatList extends Component {
         }
       }
     }
-    return filteredData
+    return filteredData;
+  };
+
+  onScrollBeginDrag = () => {
+    Animated.spring(this.state.rowScale, {
+      toValue: 5,
+      tension: 20,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  onScrollEndDrag = () => {
+    Animated.spring(this.state.rowScale, {
+      toValue: 1,
+      tension: 20,
+      useNativeDriver: true,
+    }).start();
   };
 
   render() {
@@ -117,12 +136,18 @@ class CompleteFlatList extends Component {
       placeholder,
       searchTextInputStyle,
       showSearch,
+      isJelly,
     } = this.props;
-    const { searchText } = this.state
+    const { searchText } = this.state;
     const filteredData = this.filterText();
     if (filteredData.length === 0) {
       filteredData.push({ showEmptyRow: true });
     }
+
+    const scaleY = this.state.rowScale.interpolate({
+      inputRange: [0, 5],
+      outputRange: [1, 0.9],
+    });
 
     const searchbar = (
       <View style={[styles.searchBarContainer, searchBarBackgroundStyles]}>
@@ -144,6 +169,11 @@ class CompleteFlatList extends Component {
       </View>
     );
 
+    const jellyProps = isJelly ? {
+      onScrollBeginDrag: this.onScrollBeginDrag,
+      onScrollEndDrag: this.onScrollEndDrag,
+    } : {}
+
     return (
       <View
         behavior={this.state.behavior}
@@ -152,7 +182,10 @@ class CompleteFlatList extends Component {
         {showSearch && searchbar}
         {this.props.elementBetweenSearchAndList}
         <FlatList
+          ItemSeparatorComponent={renderSeparator}
+          scrollEventThrottle={16}
           {...this.props}
+          {...jellyProps}
           refreshControl={
             onSearch !== null ? (
               <RefreshControl
@@ -169,16 +202,15 @@ class CompleteFlatList extends Component {
               ) : null
           }
           data={filteredData}
-          renderItem={({ item, index, separators: { highlight, unhighlight, updateProps } }) =>
+          renderItem={({ item, index, separators }) =>
             filteredData.length === 1 &&
               filteredData[0].showEmptyRow !== null &&
               typeof filteredData[0].showEmptyRow !== "undefined"
               ? this.props.renderEmptyRow()
-              : renderItem(item, index)
+              : <Animated.View style={{ transform: [{ scaleY }] }}>{renderItem({ item, index, separators })}</Animated.View>
           }
           style={styles.flatList}
-          ItemSeparatorComponent={renderSeparator}
-          keyExtractor={(item, index) => index.toString()}
+        // keyExtractor={(item, index) => index.toString()}//dangerous to use index
         />
       </View>
     );
