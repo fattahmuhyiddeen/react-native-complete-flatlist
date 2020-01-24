@@ -85,6 +85,9 @@ class App extends Component {
 
 
 ```
+### Upgrading from V 1.x.x to V 2.x.x
+
+Change from `renderItem={(data, index) => {} }` to `renderItem={({data, index, separators}) => {} }` (similar like the on in Original Flatlist) (I dont know why I dont do that from the beginning)
 
 
 
