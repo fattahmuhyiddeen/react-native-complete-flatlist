@@ -8,13 +8,12 @@ import {
   TextInput,
   RefreshControl,
   Animated,
-} from "react-native";
+} from 'react-native';
 
 class CompleteFlatList extends React.Component {
   state = {
-    behavior: "padding",
     refreshing: false,
-    searchText: "",
+    searchText: '',
     rowScale: new Animated.Value(0),
     slide: new Animated.Value(0),
   };
@@ -28,7 +27,7 @@ class CompleteFlatList extends React.Component {
     renderSeparator: () => <View style={styles.defaultSeparator} />,
     pullToRefreshCallback: null,
     onSearch: null,
-    highlightColor: "",
+    highlightColor: '',
     backgroundStyles: {},
     searchTextInputStyle: {},
     searchBarBackgroundStyles: {},
@@ -64,12 +63,11 @@ class CompleteFlatList extends React.Component {
   onRefresh = () => {
     this.props.pullToRefreshCallback();
     this.setState({ refreshing: true });
-    setTimeout(() => {
-      this.setState({ refreshing: false });
-    }, 7000);
+    setTimeout(() => this.setState({ refreshing: false }), 7000);
   };
 
   refresh = () => {
+    let filtereddata = null;
     if (this.props.data.length === 0) {
       filtereddata = [{ type: "emptyrow", name: "No data available" }];
     }
@@ -79,7 +77,7 @@ class CompleteFlatList extends React.Component {
 
   filterText = () => {
     const { data, searchKey, highlightColor, onSearch } = this.props;
-    if (this.state.searchText === "" || onSearch !== null) {
+    if (this.state.searchText === '' || onSearch !== null) {
       return data;
     }
     const searchText = this.state.searchText.toLowerCase();
@@ -188,30 +186,22 @@ class CompleteFlatList extends React.Component {
     );
 
     return (
-      <View
-        behavior={this.state.behavior}
-        style={[styles.container, backgroundStyles]}
-      >
+      <View style={[styles.container, backgroundStyles]}>
         {showSearch && searchbar}
         {this.props.elementBetweenSearchAndList}
         <FlatList
+          style={{ height: '100%' }}
           ItemSeparatorComponent={renderSeparator}
           scrollEventThrottle={16}
           {...this.props}
           {...jellyProps}
           refreshControl={
             onSearch !== null ? (
-              <RefreshControl
-                refreshing={isRefreshing}
-                onRefresh={() => onSearch(searchText)}
-              />
+              <RefreshControl refreshing={isRefreshing} onRefresh={() => onSearch(searchText)} />
             )
               :
               pullToRefreshCallback !== null ? (
-                <RefreshControl
-                  refreshing={isRefreshing}
-                  onRefresh={pullToRefreshCallback}
-                />
+                <RefreshControl refreshing={isRefreshing} onRefresh={pullToRefreshCallback} />
               ) : null
           }
           data={filteredData}
@@ -255,6 +245,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
+    height: '100%',
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "white",
