@@ -16,6 +16,7 @@ class CompleteFlatList extends React.Component {
     refreshing: false,
     searchText: "",
     rowScale: new Animated.Value(0),
+    slide: new Animated.Value(0),
   };
 
   static defaultProps = {
@@ -33,6 +34,7 @@ class CompleteFlatList extends React.Component {
     searchBarBackgroundStyles: {},
     showSearch: true,
     isJelly: false,
+    slide: 'none',
     renderEmptyRow: () => (
       <Text style={styles.noData}>{"No data available"}</Text>
     ),
@@ -44,6 +46,16 @@ class CompleteFlatList extends React.Component {
     const { refreshOnLoad = true, pullToRefreshCallback } = props
     if (pullToRefreshCallback !== null && refreshOnLoad) {
       pullToRefreshCallback();
+    }
+  }
+
+  componentDidMount() {
+    if (this.props.slide != 'none') {
+      Animated.spring(this.state.slide, {
+        toValue: 1,
+        tension: 20,
+        useNativeDriver: true,
+      }).start();
     }
   }
 
@@ -137,6 +149,7 @@ class CompleteFlatList extends React.Component {
       searchTextInputStyle,
       showSearch,
       isJelly,
+      slide,
     } = this.props;
     const { searchText } = this.state;
     const filteredData = this.filterText();
@@ -144,10 +157,15 @@ class CompleteFlatList extends React.Component {
       filteredData.push({ showEmptyRow: true });
     }
 
-    const scaleY = this.state.rowScale.interpolate({
+    const scaleY = !isJelly ? 1 : this.state.rowScale.interpolate({
       inputRange: [0, 5],
       outputRange: [1, 0.9],
     });
+
+    const jellyProps = isJelly ? {
+      onScrollBeginDrag: this.onScrollBeginDrag,
+      onScrollEndDrag: this.onScrollEndDrag,
+    } : {}
 
     const searchbar = (
       <View style={[styles.searchBarContainer, searchBarBackgroundStyles]}>
@@ -168,11 +186,6 @@ class CompleteFlatList extends React.Component {
         />
       </View>
     );
-
-    const jellyProps = isJelly ? {
-      onScrollBeginDrag: this.onScrollBeginDrag,
-      onScrollEndDrag: this.onScrollEndDrag,
-    } : {}
 
     return (
       <View
@@ -202,13 +215,19 @@ class CompleteFlatList extends React.Component {
               ) : null
           }
           data={filteredData}
-          renderItem={({ item, index, separators }) =>
-            filteredData.length === 1 &&
+          renderItem={({ item, index, separators }) => {
+            const translateX = slide == 'none' ? 0 : this.state.slide.interpolate({
+              inputRange: [0, 1],
+              outputRange: [((slide == 'right' ? 1 : -1) * ((index + 1) * 500)), 0],
+            });
+            if (filteredData.length === 1 &&
               filteredData[0].showEmptyRow !== null &&
-              typeof filteredData[0].showEmptyRow !== "undefined"
-              ? this.props.renderEmptyRow()
-              : <Animated.View style={{ transform: [{ scaleY }] }}>{renderItem({ item, index, separators })}</Animated.View>
-          }
+              typeof filteredData[0].showEmptyRow !== "undefined") {
+
+              return this.props.renderEmptyRow();
+            }
+            return <Animated.View style={{ transform: [{ scaleY }, { translateX }] }}>{renderItem({ item, index, separators })}</Animated.View>
+          }}
           style={styles.flatList}
         // keyExtractor={(item, index) => index.toString()}//dangerous to use index
         />
