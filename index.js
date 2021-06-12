@@ -34,9 +34,6 @@ class CompleteFlatList extends React.Component {
     showSearch: true,
     isJelly: false,
     slide: 'none',
-    renderEmptyRow: () => (
-      <Text style={styles.noData}>{"No data available"}</Text>
-    ),
     elementBetweenSearchAndList: null
   };
 
@@ -67,12 +64,7 @@ class CompleteFlatList extends React.Component {
   };
 
   refresh = () => {
-    let filtereddata = null;
-    if (this.props.data.length === 0) {
-      filtereddata = [{ type: "emptyrow", name: "No data available" }];
-    }
-    filtereddata = this.props.data;
-    this.setState({ refreshing: false, data: filtereddata });
+    this.setState({ refreshing: false, data: this.props.data });
   };
 
   filterText = () => {
@@ -151,9 +143,6 @@ class CompleteFlatList extends React.Component {
     } = this.props;
     const { searchText } = this.state;
     const filteredData = this.filterText();
-    if (filteredData.length === 0) {
-      filteredData.push({ showEmptyRow: true });
-    }
 
     const scaleY = !isJelly ? 1 : this.state.rowScale.interpolate({
       inputRange: [0, 5],
@@ -192,6 +181,7 @@ class CompleteFlatList extends React.Component {
         <FlatList
           style={{ height: '100%' }}
           ItemSeparatorComponent={renderSeparator}
+          ListEmptyComponent={<Text style={styles.noData}>No data available</Text>}
           scrollEventThrottle={16}
           {...this.props}
           {...jellyProps}
@@ -210,16 +200,9 @@ class CompleteFlatList extends React.Component {
               inputRange: [0, 1],
               outputRange: [((slide == 'right' ? 1 : -1) * ((index + 1) * 500)), 0],
             });
-            if (filteredData.length === 1 &&
-              filteredData[0].showEmptyRow !== null &&
-              typeof filteredData[0].showEmptyRow !== "undefined") {
-
-              return this.props.renderEmptyRow();
-            }
             return <Animated.View style={{ transform: [{ scaleY }, { translateX }] }}>{renderItem({ item, index, separators })}</Animated.View>
           }}
           style={styles.flatList}
-        // keyExtractor={(item, index) => index.toString()}//dangerous to use index
         />
       </View>
     );
