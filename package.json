@@ -1,6 +1,6 @@
 {
   "name": "react-native-complete-flatlist",
-  "version": "2.0.6",
+  "version": "2.0.7",
   "description": "An extension of React Native's Flatlist with search bar, highlighted search, pull to refresh, and etc is ready to use",
   "main": "index.js",
   "scripts": {
@@ -23,6 +23,7 @@
     "listview with pull to refresh",
     "flatlist with pull to refresh",
     "highlight",
+    "jelly",
     "pull to refresh"
   ],
   "author": "Fattah Muhyiddeen <fattahmuhyiddeen@gmail.com>",

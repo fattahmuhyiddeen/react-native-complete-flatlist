@@ -11,11 +11,11 @@ import {
 } from 'react-native';
 
 class CompleteFlatList extends React.Component {
+  rowScale = new Animated.Value(0);
+  slide = new Animated.Value(0);
   state = {
     refreshing: false,
     searchText: '',
-    rowScale: new Animated.Value(0),
-    slide: new Animated.Value(0),
   };
 
   static defaultProps = {
@@ -34,20 +34,15 @@ class CompleteFlatList extends React.Component {
     showSearch: true,
     isJelly: false,
     slide: 'none',
-    elementBetweenSearchAndList: null
+    elementBetweenSearchAndList: null,
+    refreshOnLoad: true,
   };
 
-  constructor(props, defaultProps) {
-    super(props, defaultProps)
-    const { refreshOnLoad = true, pullToRefreshCallback } = props
-    if (pullToRefreshCallback !== null && refreshOnLoad) {
-      pullToRefreshCallback();
-    }
-  }
-
   componentDidMount() {
+    if (this.props.refreshOnLoad) this.props.pullToRefreshCallback?.();
+
     if (this.props.slide != 'none') {
-      Animated.spring(this.state.slide, {
+      Animated.spring(this.slide, {
         toValue: 1,
         tension: 20,
         useNativeDriver: true,
@@ -55,7 +50,7 @@ class CompleteFlatList extends React.Component {
     }
   }
 
-  clearSearch = () => this.setState({ searchText: "" }, this.searchInput.clear)
+  clearSearch = () => this.setState({ searchText: '' }, this.searchInput.clear)
 
   onRefresh = () => {
     this.props.pullToRefreshCallback();
@@ -63,34 +58,30 @@ class CompleteFlatList extends React.Component {
     setTimeout(() => this.setState({ refreshing: false }), 7000);
   };
 
-  refresh = () => {
-    this.setState({ refreshing: false, data: this.props.data });
-  };
+  refresh = () => this.setState({ refreshing: false, data: this.props.data });
 
   filterText = () => {
     const { data, searchKey, highlightColor, onSearch } = this.props;
-    if (this.state.searchText === '' || onSearch !== null) {
-      return data;
-    }
+    if (!this.state.searchText || !!onSearch) return data;
+
     const searchText = this.state.searchText.toLowerCase();
     const filteredData = [];
-    for (let d = 0; d < data.length; d += 1) {
+    for (let d = 0; d < data.length; d++) {
       dt = data[d];
-      for (let s = 0; s < searchKey.length; s += 1) {
+      for (let s = 0; s < searchKey.length; s++) {
         sk = searchKey[s];
         const target = dt[sk];
-        if (typeof target === "undefined" || target == null) {
-          continue;
-        }
+        if (!target) continue;
+
         if (target.toLowerCase().indexOf(searchText) !== -1) {
-          if (highlightColor === "") {
+          if (!highlightColor) {
             filteredData.push(dt);
             break;
           }
           const row = {};
-          row.cleanData = dt
+          row.cleanData = dt;
           const keys = Object.keys(dt);
-          for (let i = 0; i < keys.length; i += 1) {
+          for (let i = 0; i < keys.length; i++) {
             const key = keys[i];
             if (typeof dt[key] === "string") {
               row[key] = (
@@ -111,7 +102,7 @@ class CompleteFlatList extends React.Component {
   };
 
   onScrollBeginDrag = () => {
-    Animated.spring(this.state.rowScale, {
+    Animated.spring(this.rowScale, {
       toValue: 5,
       tension: 20,
       useNativeDriver: true,
@@ -119,7 +110,7 @@ class CompleteFlatList extends React.Component {
   };
 
   onScrollEndDrag = () => {
-    Animated.spring(this.state.rowScale, {
+    Animated.spring(this.rowScale, {
       toValue: 1,
       tension: 20,
       useNativeDriver: true,
@@ -144,7 +135,7 @@ class CompleteFlatList extends React.Component {
     const { searchText } = this.state;
     const filteredData = this.filterText();
 
-    const scaleY = !isJelly ? 1 : this.state.rowScale.interpolate({
+    const scaleY = !isJelly ? 1 : this.rowScale.interpolate({
       inputRange: [0, 5],
       outputRange: [1, 0.9],
     });
@@ -165,11 +156,11 @@ class CompleteFlatList extends React.Component {
           underlineColorAndroid="transparent"
           autoCapitalize="none"
           keyboardType="email-address"
-          onChangeText={searchText => this.setState({ searchText })}
+          onChangeText={t => this.setState({ searchText: t })}
           value={searchText}
           maxLength={100}
           returnKeyType='search'
-          onSubmitEditing={() => onSearch && onSearch(this.state.searchText)}
+          onSubmitEditing={() => onSearch?.(this.state.searchText)}
         />
       </View>
     );
@@ -179,28 +170,22 @@ class CompleteFlatList extends React.Component {
         {showSearch && searchbar}
         {this.props.elementBetweenSearchAndList}
         <FlatList
-          style={{ height: '100%' }}
           ItemSeparatorComponent={renderSeparator}
           ListEmptyComponent={<Text style={styles.noData}>No data available</Text>}
           scrollEventThrottle={16}
           {...this.props}
           {...jellyProps}
           refreshControl={
-            onSearch !== null ? (
-              <RefreshControl refreshing={isRefreshing} onRefresh={() => onSearch(searchText)} />
-            )
-              :
-              pullToRefreshCallback !== null ? (
-                <RefreshControl refreshing={isRefreshing} onRefresh={pullToRefreshCallback} />
-              ) : null
+            !!onSearch ? <RefreshControl refreshing={isRefreshing} onRefresh={() => onSearch(searchText)} />
+              : !!pullToRefreshCallback && <RefreshControl refreshing={isRefreshing} onRefresh={pullToRefreshCallback} />
           }
           data={filteredData}
           renderItem={({ item, index, separators }) => {
-            const translateX = slide == 'none' ? 0 : this.state.slide.interpolate({
+            const translateX = slide == 'none' ? 0 : this.slide.interpolate({
               inputRange: [0, 1],
               outputRange: [((slide == 'right' ? 1 : -1) * ((index + 1) * 500)), 0],
             });
-            return <Animated.View style={{ transform: [{ scaleY }, { translateX }] }}>{renderItem({ item, index, separators })}</Animated.View>
+            return <Animated.View style={{ transform: [{ scaleY }, { translateX }] }}>{renderItem({ item, index, separators })}</Animated.View>;
           }}
           style={styles.flatList}
         />
@@ -208,7 +193,6 @@ class CompleteFlatList extends React.Component {
     );
   }
 }
-
 
 const styles = StyleSheet.create({
   noData: { alignSelf: "center", textAlign: "center", marginTop: 20 },
@@ -234,12 +218,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     width: '100%',
   },
-  defaultSeparator: {
-    height: 1,
-    width: "80%",
-    alignSelf: "center",
-    backgroundColor: "#f2f2f2"
-  },
+  defaultSeparator: { height: 1, width: "80%", alignSelf: "center", backgroundColor: "#f2f2f2" },
   flatList: { height: "100%", width: "100%", backgroundColor: "transparent" }
 });
 
