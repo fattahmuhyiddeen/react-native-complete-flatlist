@@ -22,17 +22,12 @@ const data = [
   { name: 'Fattah', status: 'Active', time: '8:10 PM', date: '1 Jan 2018' },
   { name: 'Syah', status: 'Active', time: '9:14 PM', date: '1 Dec 2018' },
   { name: 'Izzat', status: 'Active', time: '8:15 PM', date: '1 Jan 2018' },
-  { name: 'Fattah', status: 'Active', time: '8:10 PM', date: '1 Jan 2018' },
-  { name: 'Fattah', status: 'Active', time: '8:10 PM', date: '1 Jan 2018' },
-  { name: 'Fattah', status: 'Active', time: '8:10 PM', date: '1 Jan 2018' },
-  { name: 'Fattah', status: 'Active', time: '8:10 PM', date: '1 Jan 2018' },
-  { name: 'Fattah', status: 'Active', time: '8:10 PM', date: '1 Jan 2018' },
-  { name: 'Fattah', status: 'Active', time: '8:10 PM', date: '1 Jan 2018' },
-  { name: 'Fattah', status: 'Active', time: '8:10 PM', date: '1 Jan 2018' },
-  { name: 'Fattah', status: 'Active', time: '8:10 PM', date: '1 Jan 2018' },
-  { name: 'Fattah', status: 'Active', time: '8:10 PM', date: '1 Jan 2018' },
-  { name: 'Fattah', status: 'Active', time: '8:10 PM', date: '1 Jan 2018' },
-  { name: 'Fattah', status: 'Active', time: '8:10 PM', date: '1 Jan 2018' },
+  { name: 'Ali', status: 'Active', time: '8:10 PM', date: '1 Jan 2018' },
+  { name: 'Abu', status: 'Active', time: '8:11 PM', date: '1 Jan 2018' },
+  { name: 'Fitri', status: 'Active', time: '8:20 PM', date: '1 Jan 2018' },
+  { name: 'Armi', status: 'Active', time: '8:33 PM', date: '1 Jan 2018' },
+  { name: 'Eidit', status: 'Active', time: '9:10 PM', date: '1 Jan 2018' },
+  { name: 'Hamdan', status: 'Active', time: '10:10 PM', date: '1 Jan 2018' },
   {
     name: 'Muhyiddeen',
     status: 'Blocked',
@@ -64,11 +59,8 @@ class App extends Component {
         alert('refreshing');
       }}
       data={data}
-      ref={c => this.completeFlatList = c}
       renderSeparator={null}
       renderItem={this.cell}
-      onEndReached={() => console.log("reach end")}
-      onEndReachedThreshold={0}
     />
     );
   }
