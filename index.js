@@ -179,7 +179,7 @@ class CompleteFlatList extends React.Component {
           {...jellyProps}
           refreshControl={
             !!onSearch ? <RefreshControl refreshing={isRefreshing || isLoading} onRefresh={() => onSearch(searchText)} />
-              : !!pullToRefreshCallback && <RefreshControl refreshing={isRefreshing || isLoading} onRefresh={pullToRefreshCallback} />
+              : <RefreshControl refreshing={isRefreshing || isLoading} onRefresh={pullToRefreshCallback} />
           }
           data={filteredData}
           renderItem={({ item, index, separators }) => {
