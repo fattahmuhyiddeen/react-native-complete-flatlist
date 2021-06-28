@@ -23,6 +23,7 @@ class CompleteFlatList extends React.Component {
     placeholder: "Search ...",
     data: [],
     isRefreshing: false,
+    isLoading: false,
     renderItem: null,
     renderSeparator: () => <View style={styles.defaultSeparator} />,
     pullToRefreshCallback: null,
@@ -123,6 +124,7 @@ class CompleteFlatList extends React.Component {
       renderSeparator,
       pullToRefreshCallback,
       isRefreshing,
+      isLoading,
       backgroundStyles,
       searchBarBackgroundStyles,
       onSearch,
@@ -176,8 +178,8 @@ class CompleteFlatList extends React.Component {
           {...this.props}
           {...jellyProps}
           refreshControl={
-            !!onSearch ? <RefreshControl refreshing={isRefreshing} onRefresh={() => onSearch(searchText)} />
-              : !!pullToRefreshCallback && <RefreshControl refreshing={isRefreshing} onRefresh={pullToRefreshCallback} />
+            !!onSearch ? <RefreshControl refreshing={isRefreshing || isLoading} onRefresh={() => onSearch(searchText)} />
+              : !!pullToRefreshCallback && <RefreshControl refreshing={isRefreshing || isLoading} onRefresh={pullToRefreshCallback} />
           }
           data={filteredData}
           renderItem={({ item, index, separators }) => {
