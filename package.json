@@ -1,10 +1,11 @@
 {
   "name": "react-native-complete-flatlist",
-  "version": "2.0.9",
+  "version": "2.0.10",
   "description": "An extension of React Native's Flatlist with search bar, highlighted search, pull to refresh, and etc is ready to use",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "publish": "npm publish --access=public"
   },
   "repository": {
     "type": "git",

@@ -131,6 +131,7 @@ class CompleteFlatList extends React.Component {
       placeholder,
       searchTextInputStyle,
       showSearch,
+      searchKey,
       isJelly,
       slide,
     } = this.props;
@@ -169,7 +170,7 @@ class CompleteFlatList extends React.Component {
 
     return (
       <View style={[styles.container, backgroundStyles]}>
-        {showSearch && searchbar}
+        {(showSearch && !!searchKey.length) && searchbar}
         {this.props.elementBetweenSearchAndList}
         <FlatList
           ItemSeparatorComponent={renderSeparator}
