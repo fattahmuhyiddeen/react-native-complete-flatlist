@@ -6,8 +6,8 @@ Extended version of react native flat list with many built in function such as s
 
 Caution:
 
-`renderItem` props return `data` and `index` parameters
-`data` parameter returns a single element in `data` array. But if search text is not empty dan `highlightColor` props is set to any color, `data` parameter will return new structure of JSON object (in order to render highlighted text in jsx). This might break your logic. Therefore, if you want to access original structure of your data, it will be under `data.cleanData`. Remember, `data.cleanData` only exist if `highlightColor` props and search textfield is not empty (user is searching)
+`renderItem` props return `item` and `index` parameters
+`item` parameter returns a single element in `item` array. But if search text is not empty dan `highlightColor` props is set to any color, `item` parameter will return new structure of JSON object (in order to render highlighted text in jsx). This might break your logic. Therefore, if you want to access original structure of your data, it will be under `item.cleanData`. Remember, `item.cleanData` only exist if `highlightColor` props and search textfield is not empty (user is searching)
 
 Usage :
 
@@ -38,8 +38,9 @@ const App = () => {
   const renderItem = ({item, index}) => {
     const data = item.cleanData ? item.cleanData : item;
 
-    console.log(item.cleanData);
-    console.log('data.cleanData will be not null if search bar is not empty and prop highlightColor is not empty. caution, data without search is not same like data with search due to implement the highlight component. data.cleanData is equal to data')
+    console.log('item (if search bar is not empty and prop highlightColor is not empty, item will contains extra data to enable highlight feature)', item);
+    console.log('cleanData (if search bar is not empty and prop highlightColor is not empty, cleanData will contain original data structure without extra data)', item.cleanData);
+
 
     console.log('this is index number : ' + index);
 
