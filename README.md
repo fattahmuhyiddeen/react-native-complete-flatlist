@@ -12,13 +12,11 @@ Caution:
 Usage :
 
 ```
-
-import React, { Component } from 'react';
-import { View, Text, Image, Platform, StatusBar } from 'react-native';
+import React from 'react';
+import { Text, SafeAreaView } from 'react-native';
 import CompleteFlatList from 'react-native-complete-flatlist';
 
-
-const data = [
+const list = [
   { name: 'Fattah', status: 'Active', time: '8:10 PM', date: '1 Jan 2018' },
   { name: 'Syah', status: 'Active', time: '9:14 PM', date: '1 Dec 2018' },
   { name: 'Izzat', status: 'Active', time: '8:15 PM', date: '1 Jan 2018' },
@@ -36,35 +34,35 @@ const data = [
   },
 ];
 
-class App extends Component {
-  cell = ({data,index}) => {
-    const item = data.cleanData ? data.cleanData : data
+const App = () => {
+  const renderItem = ({item, index}) => {
+    const data = item.cleanData ? item.cleanData : item;
 
-    console.log(data.cleanData)
+    console.log(item.cleanData);
     console.log('data.cleanData will be not null if search bar is not empty and prop highlightColor is not empty. caution, data without search is not same like data with search due to implement the highlight component. data.cleanData is equal to data')
 
-    console.log('this is index number : '+index)
+    console.log('this is index number : ' + index);
 
-    console.log(item+' this is original data')
+    console.log(data + ' this is original data');
 
-    return <Text>{data.name}</Text>;
-  }
+    return <Text>{item.name}</Text>;
+  };
 
-  render() {
-    const { navigation } = this.props;
-    return (
+  return (
+    <SafeAreaView style={{ flex: 1 }}>
       <CompleteFlatList
-      searchKey={['name', 'status', 'time', 'date']}
-      pullToRefreshCallback={() => {
-        alert('refreshing');
-      }}
-      data={data}
-      renderSeparator={null}
-      renderItem={this.cell}
-    />
-    );
-  }
-}
+        searchKey={['name', 'status', 'time', 'date']}
+        pullToRefreshCallback={() => console.log('refreshing')}
+        data={list}
+        // renderSeparator={null}
+        highlightColor="yellow"
+        renderItem={renderItem}
+      />
+    </SafeAreaView>
+  );
+};
+
+export default App;
 
 
 
@@ -72,7 +70,7 @@ class App extends Component {
 
 ### Upgrading from V 1.x.x to V 2.x.x
 
-Change from `renderItem={(data, index) => {} }` to `renderItem={({data, index, separators}) => {} }` (similar like the on in Original Flatlist) (I dont know why I dont do that from the beginning)
+Change from `renderItem={(data, index) => {} }` to `renderItem={({item, index, separators}) => {} }` (similar like the on in Original Flatlist)
 
 ### Properties
 
