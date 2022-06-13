@@ -12,8 +12,8 @@ Caution:
 Usage :
 
 ```
-import React from 'react';
-import { Text, SafeAreaView } from 'react-native';
+import React, {useRef} from 'react';
+import { Text, SafeAreaView, TouchableOpacity } from 'react-native';
 import CompleteFlatList from 'react-native-complete-flatlist';
 
 const list = [
@@ -35,6 +35,7 @@ const list = [
 ];
 
 const App = () => {
+  const ref = useRef();
   const renderItem = ({item, index}) => {
     const data = item.cleanData ? item.cleanData : item;
 
@@ -56,9 +57,13 @@ const App = () => {
         pullToRefreshCallback={() => console.log('refreshing')}
         data={list}
         // renderSeparator={null}
+        ref={ref}
         highlightColor="yellow"
         renderItem={renderItem}
       />
+      <TouchableOpacity onPress={() => ref.current.clearSearch()} style={{ padding: 5 }}>
+        <Text>Clear Search</Text>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 };
@@ -100,18 +105,34 @@ All FlatList props should work plus props mentioned below
 ### Methods
 
 If you have `ref` to the component,
+```
+const completeFlatList = useRef();
+...
+ <CompleteFlatList
+   ...
+    ref={completeFlatList}
+   ...
+ />
 
 ```
 
-            <CompleteFlatList
-               ...
-                ref={c => this.completeFlatList = c}
-                ...
-            />
+or in component based
+
 ```
 
-you can use any method(s) below
-`this.completeFlatList.methodName()`
+<CompleteFlatList
+   ...
+   ref={c => this.completeFlatList = c}
+   ...
+/>
+```
+
+you can use any method(s) below:
+```completeFlatList.current.methodName()```
+
+or in component based
+
+```this.completeFlatList.methodName()```
 
 | Method      | Description                         |
 | ----------- | ----------------------------------- |

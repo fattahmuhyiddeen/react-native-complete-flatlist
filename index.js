@@ -1,5 +1,4 @@
 import React from 'react';
-import Highlighter from "react-native-highlight-words";
 import {
   StyleSheet,
   Text,
@@ -9,6 +8,8 @@ import {
   RefreshControl,
   Animated,
 } from 'react-native';
+
+import filterText from './utils/filterText';
 
 class CompleteFlatList extends React.Component {
   rowScale = new Animated.Value(0);
@@ -23,12 +24,8 @@ class CompleteFlatList extends React.Component {
     placeholder: "Search ...",
     data: [],
     isRefreshing: false,
-    isLoading: false,
     renderItem: null,
     renderSeparator: () => <View style={styles.defaultSeparator} />,
-    pullToRefreshCallback: null,
-    onSearch: null,
-    highlightColor: '',
     backgroundStyles: {},
     searchTextInputStyle: {},
     searchBarBackgroundStyles: {},
@@ -54,53 +51,12 @@ class CompleteFlatList extends React.Component {
   clearSearch = () => this.setState({ searchText: '' }, this.searchInput.clear)
 
   onRefresh = () => {
-    this.props.pullToRefreshCallback();
+    this.props.pullToRefreshCallback?.();
     this.setState({ refreshing: true });
     setTimeout(() => this.setState({ refreshing: false }), 7000);
   };
 
   refresh = () => this.setState({ refreshing: false, data: this.props.data });
-
-  filterText = () => {
-    const { data, searchKey, highlightColor, onSearch } = this.props;
-    if (!this.state.searchText || !!onSearch) return data;
-
-    const searchText = this.state.searchText.toLowerCase();
-    const filteredData = [];
-    for (let d = 0; d < data.length; d++) {
-      dt = data[d];
-      for (let s = 0; s < searchKey.length; s++) {
-        sk = searchKey[s];
-        const target = dt[sk];
-        if (!target) continue;
-
-        if (target.toLowerCase().indexOf(searchText) !== -1) {
-          if (!highlightColor) {
-            filteredData.push(dt);
-            break;
-          }
-          const row = {};
-          row.cleanData = dt;
-          const keys = Object.keys(dt);
-          for (let i = 0; i < keys.length; i++) {
-            const key = keys[i];
-            if (typeof dt[key] === "string") {
-              row[key] = (
-                <Highlighter
-                  highlightStyle={{ backgroundColor: highlightColor }}
-                  searchWords={[searchText]}
-                  textToHighlight={dt[key]}
-                />
-              );
-            }
-          }
-          filteredData.push(row);
-          break;
-        }
-      }
-    }
-    return filteredData;
-  };
 
   onScrollBeginDrag = () => {
     Animated.spring(this.rowScale, {
@@ -136,7 +92,7 @@ class CompleteFlatList extends React.Component {
       slide,
     } = this.props;
     const { searchText } = this.state;
-    const filteredData = this.filterText();
+    const filteredData = filterText({...this.props, searchText })
 
     const scaleY = !isJelly ? 1 : this.rowScale.interpolate({
       inputRange: [0, 5],
