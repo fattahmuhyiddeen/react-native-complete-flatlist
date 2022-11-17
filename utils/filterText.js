@@ -8,7 +8,7 @@ const filterText = ({ data, searchKey, highlightColor, onSearch, searchText }) =
     const filteredData = [];
     for (const dt of data) {
       for (let s = 0; s < searchKey.length; s++) {
-        sk = searchKey[s];
+        const sk = searchKey[s];
         const target = dt[sk];
         if (!target) continue;
 
