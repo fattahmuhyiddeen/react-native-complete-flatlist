@@ -37,6 +37,7 @@
     "mocha": "^5.0.0"
   },
   "dependencies": {
-    "react-native-highlight-words": "git+https://github.com/fattahmuhyiddeen/react-native-highlight-words.git#master"
+    "fuse.js": "^6.6.2",
+    "react-native-highlight-words": "^1.0.1"
   }
 }
