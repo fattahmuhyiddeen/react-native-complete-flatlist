@@ -1,6 +1,6 @@
 {
   "name": "react-native-complete-flatlist",
-  "version": "2.0.15",
+  "version": "2.0.16",
   "description": "An extension of React Native's Flatlist with search bar, highlighted search, pull to refresh, and etc is ready to use",
   "main": "index.js",
   "scripts": {
@@ -38,6 +38,6 @@
   },
   "dependencies": {
     "fuse.js": "^6.6.2",
-    "react-native-highlight-words": "^1.0.1"
+    "react-native-highlight-words": "git+https://github.com/fattahmuhyiddeen/react-native-highlight-words.git#master"
   }
 }
