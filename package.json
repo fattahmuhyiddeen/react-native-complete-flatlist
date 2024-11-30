@@ -1,6 +1,6 @@
 {
   "name": "react-native-complete-flatlist",
-  "version": "2.0.18",
+  "version": "2.0.19",
   "description": "An extension of React Native's Flatlist with search bar, highlighted search, pull to refresh, and etc is ready to use",
   "main": "index.js",
   "scripts": {

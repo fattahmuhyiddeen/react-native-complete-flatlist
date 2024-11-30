@@ -96,6 +96,7 @@ class CompleteFlatList extends React.Component {
       slide,
       useFuzzy,
       loadNext,
+      refreshControlProps = {},
     } = this.props;
     const { searchText } = this.state;
     const filteredData = useFuzzy
@@ -154,6 +155,7 @@ class CompleteFlatList extends React.Component {
           {...jellyProps}
           refreshControl={
             <RefreshControl
+              {...refreshControlProps}
               refreshing={isRefreshing || isLoading}
               onRefresh={
                 onSearch ? () => onSearch(searchText) : pullToRefreshCallback
